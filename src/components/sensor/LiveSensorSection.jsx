@@ -61,7 +61,7 @@ const LiveSensorSection = () => {
             streams live motion data directly to this dashboard.
           </p>
           <div style={styles.disclaimer}>
-            <Info size={14} color="#06b6d4" />
+            <Info size={14} color="var(--cyan)" />
             <span>
               <strong>Demo transparency:</strong> Live input from smartphone accelerometer — used as a low-cost prototype vibration stream.
               Model intelligence is benchmarked on industrial CWRU bearing datasets; smartphone data is for live interactive demonstration.
@@ -78,8 +78,8 @@ const LiveSensorSection = () => {
             <div style={styles.connHeader}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 {isConnected
-                  ? <Wifi size={18} color="#10b981" />
-                  : <WifiOff size={18} color="#64748b" />}
+                  ? <Wifi size={18} color="var(--emerald)" />
+                  : <WifiOff size={18} color="var(--text-muted)" />}
                 <span style={styles.connTitle}>
                   {isConnected ? 'Sensor Connected' : 'No Sensor Active'}
                 </span>
@@ -87,8 +87,8 @@ const LiveSensorSection = () => {
               {isConnected && (
                 <span style={{
                   ...styles.connBadge,
-                  background: connectionType === 'simulated' ? 'rgba(139,92,246,0.15)' : 'rgba(16,185,129,0.15)',
-                  color: connectionType === 'simulated' ? '#8b5cf6' : '#10b981',
+                  background: connectionType === 'simulated' ? 'rgba(139,92,246,0.15)' : 'var(--emerald-glow)',
+                  color: connectionType === 'simulated' ? 'var(--purple)' : 'var(--emerald)',
                 }}>
                   {connectionType === 'simulated' ? 'SIMULATED' : connectionType === 'broadcast' ? 'BROADCAST' : 'WEBSOCKET'}
                 </span>
@@ -109,9 +109,9 @@ const LiveSensorSection = () => {
               <button 
                 style={{
                   display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '12px 20px',
-                  background: (connectionType === 'websocket' || connectionType === 'broadcast') ? 'rgba(16,185,129,0.1)' : 'transparent',
-                  color: (connectionType === 'websocket' || connectionType === 'broadcast') ? '#10b981' : '#94a3b8',
-                  border: (connectionType === 'websocket' || connectionType === 'broadcast') ? '1px solid rgba(16,185,129,0.3)' : '1px solid rgba(56,72,104,0.4)',
+                  background: (connectionType === 'websocket' || connectionType === 'broadcast') ? 'var(--emerald-dim)' : 'transparent',
+                  color: (connectionType === 'websocket' || connectionType === 'broadcast') ? 'var(--emerald)' : 'var(--text-secondary)',
+                  border: (connectionType === 'websocket' || connectionType === 'broadcast') ? '1px solid var(--emerald-glow)' : '1px solid var(--surface-border)',
                   borderRadius: 10, fontSize: '0.88rem', fontWeight: 600, cursor: 'pointer', justifyContent: 'center',
                   fontFamily: "'Inter', sans-serif", transition: 'all 0.2s ease'
                 }}
@@ -153,7 +153,7 @@ const LiveSensorSection = () => {
             {/* Sample rate */}
             {isConnected && (
               <div style={styles.sampleRate}>
-                <Activity size={12} color="#06b6d4" />
+                <Activity size={12} color="var(--cyan)" />
                 <span style={styles.sampleRateText}>{sampleRate} samples/sec</span>
               </div>
             )}
@@ -218,7 +218,7 @@ const LiveSensorSection = () => {
                     <BarChart data={freqBands} margin={{ top: 4, right: 4, bottom: 4, left: 0 }}>
                       <XAxis dataKey="band" hide />
                       <YAxis domain={[0, 1]} hide />
-                      <Bar dataKey="normalizedPower" fill="#06b6d4" radius={[2, 2, 0, 0]} isAnimationActive={false} />
+                      <Bar dataKey="normalizedPower" fill="var(--cyan)" radius={[2, 2, 0, 0]} isAnimationActive={false} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
@@ -256,9 +256,9 @@ const LiveSensorSection = () => {
                 <div style={{ ...styles.anomalyThresh, left: '55%' }} />
               </div>
               <div style={styles.anomalyLegend}>
-                <span style={{ color: '#10b981' }}>Normal</span>
-                <span style={{ color: '#f59e0b' }}>Warning</span>
-                <span style={{ color: '#ef4444' }}>Critical</span>
+                <span style={{ color: 'var(--emerald)' }}>Normal</span>
+                <span style={{ color: 'var(--amber)' }}>Warning</span>
+                <span style={{ color: 'var(--red)' }}>Critical</span>
               </div>
             </div>
           </motion.div>
@@ -269,22 +269,23 @@ const LiveSensorSection = () => {
 };
 
 const styles = {
-  section: { padding: '100px 0', background: '#0f1420', position: 'relative' },
+  section: { padding: '100px 0', background: 'var(--bg-secondary)', position: 'relative', transition: 'background 0.3s ease' },
   container: { maxWidth: 1280, margin: '0 auto', padding: '0 32px' },
   header: { textAlign: 'center', marginBottom: 48 },
-  subtitle: { fontSize: '1.05rem', color: '#94a3b8', maxWidth: 600, margin: '0 auto 20px', lineHeight: 1.7 },
+  subtitle: { fontSize: '1.05rem', color: 'var(--text-secondary)', maxWidth: 600, margin: '0 auto 20px', lineHeight: 1.7 },
   disclaimer: {
     display: 'flex', alignItems: 'flex-start', gap: 10, maxWidth: 700, margin: '0 auto',
-    padding: '12px 18px', background: 'rgba(6,182,212,0.06)', border: '1px solid rgba(6,182,212,0.15)',
-    borderRadius: 10, fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.6, textAlign: 'left',
+    padding: '12px 18px', background: 'var(--cyan-dim)', border: '1px solid var(--surface-border)',
+    borderRadius: 10, fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.6, textAlign: 'left',
   },
   mainGrid: { display: 'grid', gridTemplateColumns: '380px 1fr', gap: 24, alignItems: 'start' },
   connectionPanel: {
-    background: 'rgba(15,20,35,0.7)', border: '1px solid rgba(56,72,104,0.2)',
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
     borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', gap: 20,
+    backdropFilter: 'blur(12px)', transition: 'all 0.3s ease',
   },
   connHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-  connTitle: { fontSize: '1rem', fontWeight: 600, color: '#e2e8f0' },
+  connTitle: { fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)' },
   connBadge: {
     padding: '3px 10px', borderRadius: 6, fontSize: '0.65rem',
     fontWeight: 700, fontFamily: "'JetBrains Mono', monospace",
@@ -292,88 +293,90 @@ const styles = {
   connActions: {},
   btnStart: {
     display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '12px 20px',
-    background: 'linear-gradient(135deg, #06b6d4, #0891b2)', color: '#fff',
+    background: 'linear-gradient(135deg, var(--cyan), #0891b2)', color: '#fff',
     border: 'none', borderRadius: 10, fontSize: '0.88rem', fontWeight: 600,
     cursor: 'pointer', justifyContent: 'center', fontFamily: "'Inter', sans-serif",
+    transition: 'all 0.3s ease',
   },
   btnStop: {
     display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '12px 20px',
-    background: 'rgba(239,68,68,0.1)', color: '#ef4444',
-    border: '1px solid rgba(239,68,68,0.2)', borderRadius: 10,
+    background: 'var(--red-glow)', color: 'var(--red)',
+    border: '1px solid var(--red)', borderRadius: 10,
     fontSize: '0.88rem', fontWeight: 600, cursor: 'pointer',
     justifyContent: 'center', fontFamily: "'Inter', sans-serif",
+    transition: 'all 0.3s ease',
   },
   phoneInstructions: {
-    padding: '16px', background: 'rgba(20,26,42,0.5)',
-    border: '1px solid rgba(56,72,104,0.15)', borderRadius: 10,
+    padding: '16px', background: 'var(--bg-glass)',
+    border: '1px solid var(--surface-border)', borderRadius: 10,
   },
-  instrTitle: { fontSize: '0.88rem', fontWeight: 600, color: '#e2e8f0', marginBottom: 10 },
+  instrTitle: { fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 10 },
   instrList: {
-    fontSize: '0.78rem', color: '#94a3b8', paddingLeft: 16,
+    fontSize: '0.78rem', color: 'var(--text-secondary)', paddingLeft: 16,
     display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 10,
   },
   code: {
-    background: 'rgba(6,182,212,0.1)', color: '#06b6d4', padding: '1px 5px',
+    background: 'var(--cyan-dim)', color: 'var(--cyan)', padding: '1px 5px',
     borderRadius: 4, fontFamily: "'JetBrains Mono', monospace", fontSize: '0.75rem',
   },
-  wsNote: { fontSize: '0.75rem', color: '#64748b', marginTop: 8 },
+  wsNote: { fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8 },
   xyzGrid: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 },
   xyzCard: {
     display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-    padding: '10px 6px', background: 'rgba(20,26,42,0.5)',
-    border: '1px solid rgba(56,72,104,0.15)', borderRadius: 8,
+    padding: '10px 6px', background: 'var(--bg-glass)',
+    border: '1px solid var(--surface-border)', borderRadius: 8,
   },
-  xyzLabel: { fontSize: '0.65rem', color: '#64748b', fontWeight: 700, letterSpacing: '1px' },
+  xyzLabel: { fontSize: '0.65rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '1px' },
   xyzValue: {
-    fontSize: '0.95rem', fontWeight: 700, color: '#06b6d4',
+    fontSize: '0.95rem', fontWeight: 700, color: 'var(--cyan)',
     fontFamily: "'JetBrains Mono', monospace",
   },
-  xyzUnit: { fontSize: '0.6rem', color: '#64748b' },
+  xyzUnit: { fontSize: '0.6rem', color: 'var(--text-muted)' },
   sampleRate: { display: 'flex', alignItems: 'center', gap: 8 },
-  sampleRateText: { fontSize: '0.75rem', color: '#64748b', fontFamily: "'JetBrains Mono', monospace" },
+  sampleRateText: { fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: "'JetBrains Mono', monospace" },
   chartsArea: { display: 'flex', flexDirection: 'column', gap: 16 },
   chartCard: {
-    background: 'rgba(15,20,35,0.7)', border: '1px solid rgba(56,72,104,0.2)',
-    borderRadius: 12, padding: '16px 20px',
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
+    borderRadius: 12, padding: '16px 20px', backdropFilter: 'blur(12px)', transition: 'all 0.3s ease',
   },
   chartHeader: {
     display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12,
   },
-  chartTitle: { fontSize: '0.85rem', fontWeight: 600, color: '#e2e8f0' },
-  chartMeta: { fontSize: '0.72rem', color: '#64748b' },
+  chartTitle: { fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' },
+  chartMeta: { fontSize: '0.72rem', color: 'var(--text-muted)' },
   statusBadge: {
     padding: '3px 10px', borderRadius: 6, fontSize: '0.72rem', fontWeight: 600,
     fontFamily: "'JetBrains Mono', monospace",
   },
   noDataMsg: {
     height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    color: '#334155', fontSize: '0.8rem', fontStyle: 'italic',
+    color: 'var(--text-muted)', fontSize: '0.8rem', fontStyle: 'italic',
   },
   metricsRow: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 },
   metricTile: {
     display: 'flex', flexDirection: 'column', gap: 6, padding: '12px 14px',
-    background: 'rgba(15,20,35,0.7)', border: '1px solid rgba(56,72,104,0.2)',
-    borderRadius: 10, textAlign: 'center',
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
+    borderRadius: 10, textAlign: 'center', transition: 'all 0.3s ease',
   },
-  metricTileLabel: { fontSize: '0.7rem', color: '#64748b' },
+  metricTileLabel: { fontSize: '0.7rem', color: 'var(--text-muted)' },
   metricTileValue: {
-    fontSize: '1.05rem', fontWeight: 700, color: '#e2e8f0',
+    fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)',
     fontFamily: "'JetBrains Mono', monospace",
   },
-  metricTileUnit: { fontSize: '0.7rem', color: '#64748b', marginLeft: 3 },
+  metricTileUnit: { fontSize: '0.7rem', color: 'var(--text-muted)', marginLeft: 3 },
   bandLabels: {
     display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem',
-    color: '#64748b', marginTop: 4,
+    color: 'var(--text-muted)', marginTop: 4,
   },
   anomalyBar: {
-    background: 'rgba(15,20,35,0.7)', border: '1px solid rgba(56,72,104,0.2)',
-    borderRadius: 12, padding: '16px 20px',
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
+    borderRadius: 12, padding: '16px 20px', transition: 'all 0.3s ease',
   },
   anomalyHeader: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 },
-  anomalyLabel: { fontSize: '0.85rem', fontWeight: 600, color: '#e2e8f0', flex: 1 },
+  anomalyLabel: { fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', flex: 1 },
   anomalyValue: { fontSize: '0.9rem', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" },
   anomalyTrack: {
-    width: '100%', height: 8, background: 'rgba(56,72,104,0.2)',
+    width: '100%', height: 8, background: 'var(--surface-border)',
     borderRadius: 4, overflow: 'visible', position: 'relative', marginBottom: 8,
   },
   anomalyFill: { height: '100%', borderRadius: 4, maxWidth: '100%' },

@@ -13,7 +13,7 @@ export default defineConfig({
     https: true,
     proxy: {
       '/ws-relay': {
-        target: 'ws://localhost:8765',
+        target: 'ws://127.0.0.1:8765',
         ws: true
       }
     }

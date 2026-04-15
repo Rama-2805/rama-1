@@ -60,14 +60,14 @@ const LoadingScreen = () => {
 
 const styles = {
   container: {
-    position: 'fixed', inset: 0, background: '#0a0e17',
+    position: 'fixed', inset: 0, background: 'var(--bg-primary)',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    zIndex: 9999,
+    zIndex: 9999, transition: 'background 0.3s ease',
   },
   glow: {
     position: 'absolute', top: '50%', left: '50%',
     width: 500, height: 500, borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(6,182,212,0.12) 0%, transparent 70%)',
+    background: 'radial-gradient(circle, var(--cyan-glow) 0%, transparent 70%)',
     transform: 'translate(-50%, -50%)',
     animation: 'pulseGlow 3s ease-in-out infinite',
   },
@@ -79,30 +79,30 @@ const styles = {
   },
   logoIcon: {
     width: 60, height: 60, borderRadius: 14,
-    background: 'rgba(6,182,212,0.1)', border: '1px solid rgba(6,182,212,0.2)',
+    background: 'var(--cyan-dim)', border: '1px solid var(--surface-border)',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
   },
   title: {
-    fontSize: '2rem', fontWeight: 800, color: '#e2e8f0', letterSpacing: '-0.02em',
+    fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em',
   },
-  titleAccent: { color: '#06b6d4' },
+  titleAccent: { color: 'var(--cyan)' },
   barTrack: {
-    width: '100%', height: 3, background: 'rgba(56,72,104,0.3)',
+    width: '100%', height: 3, background: 'var(--surface-border)',
     borderRadius: 2, overflow: 'hidden', marginBottom: 16,
   },
   barFill: {
     height: '100%', borderRadius: 2, transition: 'width 0.4s ease-out',
-    background: 'linear-gradient(90deg, #06b6d4, #0891b2)',
-    boxShadow: '0 0 12px rgba(6,182,212,0.4)',
+    background: 'linear-gradient(90deg, var(--cyan), #0891b2)',
+    boxShadow: '0 0 12px var(--cyan-glow)',
   },
   statusRow: {
     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
   },
   statusText: {
-    fontSize: '0.8rem', color: '#64748b', fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: "'JetBrains Mono', monospace",
   },
   percent: {
-    fontSize: '0.8rem', color: '#06b6d4', fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '0.8rem', color: 'var(--cyan)', fontFamily: "'JetBrains Mono', monospace",
     fontWeight: 600,
   },
 };

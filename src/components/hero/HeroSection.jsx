@@ -122,26 +122,26 @@ const styles = {
   },
   badge: {
     display: 'inline-flex', alignItems: 'center', gap: 8,
-    padding: '6px 16px', background: 'rgba(6,182,212,0.08)',
-    border: '1px solid rgba(6,182,212,0.2)', borderRadius: 100,
-    fontSize: '0.72rem', fontWeight: 600, color: '#06b6d4',
+    padding: '6px 16px', background: 'var(--cyan-dim)',
+    border: '1px solid var(--surface-border)', borderRadius: 100,
+    fontSize: '0.72rem', fontWeight: 600, color: 'var(--cyan)',
     textTransform: 'uppercase', letterSpacing: '1.2px',
     marginBottom: 24, alignSelf: 'flex-start',
   },
   headline: {
-    fontSize: '4.2rem', fontWeight: 900, color: '#e2e8f0',
+    fontSize: '4.2rem', fontWeight: 900, color: 'var(--text-primary)',
     lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 16,
   },
   accent: {
-    color: '#06b6d4',
-    textShadow: '0 0 40px rgba(6,182,212,0.3)',
+    color: 'var(--cyan)',
+    textShadow: '0 0 40px var(--cyan-glow)',
   },
   subheadline: {
-    fontSize: '1.25rem', fontWeight: 500, color: '#94a3b8',
+    fontSize: '1.25rem', fontWeight: 500, color: 'var(--text-secondary)',
     marginBottom: 20, lineHeight: 1.5,
   },
   description: {
-    fontSize: '0.95rem', color: '#64748b', lineHeight: 1.8,
+    fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: 1.8,
     maxWidth: 520, marginBottom: 32,
   },
   buttons: {
@@ -159,8 +159,8 @@ const styles = {
   btnSecondary: {
     display: 'inline-flex', alignItems: 'center', gap: 8,
     padding: '14px 32px', borderRadius: 10, fontSize: '0.9rem', fontWeight: 600,
-    background: 'transparent', color: '#e2e8f0',
-    border: '1px solid rgba(56,72,104,0.4)', cursor: 'pointer',
+    background: 'transparent', color: 'var(--text-primary)',
+    border: '1px solid var(--surface-border)', cursor: 'pointer',
     transition: 'all 0.3s ease',
     fontFamily: "'Inter', sans-serif",
   },

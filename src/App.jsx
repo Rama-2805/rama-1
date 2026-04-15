@@ -20,6 +20,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [selectedMachine, setSelectedMachine] = useState(MACHINES[0]);
   const [isSensorPage, setIsSensorPage] = useState(false);
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     // Check if this is the sensor page
@@ -45,7 +50,10 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar />
+      <Navbar 
+        theme={theme} 
+        onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} 
+      />
       <main>
         <HeroSection />
         <DigitalTwin 

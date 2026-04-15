@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Menu, X } from 'lucide-react';
+import { Shield, Menu, X, Sun, Moon } from 'lucide-react';
 
 const NAV_ITEMS = [
   { id: 'hero', label: 'Home' },
@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { id: 'advisor', label: 'AI Advisor' },
 ];
 
-const Navbar = () => {
+const Navbar = ({ theme, onToggleTheme }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -30,44 +30,66 @@ const Navbar = () => {
     <>
       <nav style={{
         ...styles.nav,
-        background: scrolled ? 'rgba(10, 14, 23, 0.92)' : 'transparent',
+        background: scrolled ? 'var(--bg-glass)' : 'transparent',
         backdropFilter: scrolled ? 'blur(20px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(56,72,104,0.2)' : '1px solid transparent',
+        borderBottom: scrolled ? '1px solid var(--surface-border)' : '1px solid transparent',
       }}>
         <div style={styles.inner}>
           <div style={styles.brand} onClick={() => scrollTo('hero')}>
-            <Shield size={22} color="#06b6d4" />
-            <span style={styles.brandText}>Factory<span style={{ color: '#06b6d4' }}>Shield</span></span>
+            <Shield size={22} color="var(--cyan)" />
+            <span style={{...styles.brandText, color: 'var(--text-primary)'}}>
+              Factory<span style={{ color: 'var(--cyan)' }}>Shield</span>
+            </span>
           </div>
           <div style={styles.links}>
             {NAV_ITEMS.map(item => (
               <button
                 key={item.id}
-                style={styles.link}
+                style={{...styles.link, color: 'var(--text-secondary)'}}
                 onClick={() => scrollTo(item.id)}
-                onMouseEnter={e => { e.target.style.color = '#06b6d4'; }}
-                onMouseLeave={e => { e.target.style.color = '#94a3b8'; }}
+                onMouseEnter={e => { e.target.style.color = 'var(--cyan)'; }}
+                onMouseLeave={e => { e.target.style.color = 'var(--text-secondary)'; }}
               >
                 {item.label}
               </button>
             ))}
           </div>
-          <button 
-            style={styles.cta}
-            onMouseEnter={e => { e.target.style.boxShadow = '0 6px 30px rgba(6,182,212,0.45)'; }}
-            onMouseLeave={e => { e.target.style.boxShadow = '0 4px 20px rgba(6,182,212,0.25)'; }}
-          >
-            Launch Demo
-          </button>
-          <button style={styles.menuBtn} onClick={() => setMobileOpen(!mobileOpen)}>
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button 
+              onClick={onToggleTheme}
+              style={{
+                ...styles.iconBtn,
+                color: 'var(--text-primary)',
+                background: 'var(--surface-hover)'
+              }}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+
+            <button 
+              style={styles.cta}
+              onMouseEnter={e => { e.target.style.boxShadow = '0 6px 30px rgba(6,182,212,0.45)'; }}
+              onMouseLeave={e => { e.target.style.boxShadow = '0 4px 20px rgba(6,182,212,0.25)'; }}
+            >
+              Launch Demo
+            </button>
+            
+            <button style={{...styles.menuBtn, color: 'var(--text-primary)'}} onClick={() => setMobileOpen(!mobileOpen)}>
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </nav>
       {mobileOpen && (
-        <div style={styles.mobileMenu}>
+        <div style={{
+          ...styles.mobileMenu,
+          background: 'var(--bg-glass)',
+          borderBottom: '1px solid var(--surface-border)'
+        }}>
           {NAV_ITEMS.map(item => (
-            <button key={item.id} style={styles.mobileLink} onClick={() => scrollTo(item.id)}>
+            <button key={item.id} style={{...styles.mobileLink, color: 'var(--text-secondary)'}} onClick={() => scrollTo(item.id)}>
               {item.label}
             </button>
           ))}
@@ -90,20 +112,24 @@ const styles = {
     display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer',
   },
   brandText: {
-    fontSize: '1.1rem', fontWeight: 700, color: '#e2e8f0',
+    fontSize: '1.1rem', fontWeight: 700,
   },
   links: {
     display: 'flex', gap: 4,
-    '@media (max-width: 768px)': { display: 'none' },
   },
   link: {
-    background: 'none', border: 'none', color: '#94a3b8',
+    background: 'none', border: 'none',
     fontSize: '0.85rem', fontWeight: 500, padding: '8px 14px',
-    borderRadius: 8, transition: 'color 0.2s',
+    borderRadius: 8, transition: 'all 0.2s',
     fontFamily: "'Inter', sans-serif",
   },
+  iconBtn: {
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    width: 38, height: 38, borderRadius: 10, border: 'none',
+    transition: 'all 0.2s ease', cursor: 'pointer',
+  },
   cta: {
-    background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
+    background: 'linear-gradient(135deg, var(--cyan), #0891b2)',
     color: '#fff', border: 'none', padding: '8px 20px',
     borderRadius: 8, fontSize: '0.85rem', fontWeight: 600,
     boxShadow: '0 4px 20px rgba(6,182,212,0.25)',
@@ -111,23 +137,22 @@ const styles = {
     fontFamily: "'Inter', sans-serif",
   },
   menuBtn: {
-    display: 'none', background: 'none', border: 'none', color: '#e2e8f0',
+    display: 'none', background: 'none', border: 'none',
     padding: 8,
   },
   mobileMenu: {
-    position: 'fixed', top: 64, left: 0, right: 0, background: 'rgba(10,14,23,0.95)',
-    backdropFilter: 'blur(20px)', zIndex: 999, padding: '16px 32px',
-    borderBottom: '1px solid rgba(56,72,104,0.2)',
+    position: 'fixed', top: 64, left: 0, right: 0,
+    backdropFilter: 'blur(20px) saturate(150%)', zIndex: 999, padding: '16px 32px',
     display: 'flex', flexDirection: 'column', gap: 4,
   },
   mobileLink: {
-    background: 'none', border: 'none', color: '#94a3b8',
+    background: 'none', border: 'none',
     fontSize: '0.95rem', fontWeight: 500, padding: '12px 0',
     textAlign: 'left', fontFamily: "'Inter', sans-serif",
   },
 };
 
-// Override for mobile
+// Handle initial display
 if (typeof window !== 'undefined' && window.innerWidth <= 768) {
   styles.links.display = 'none';
   styles.menuBtn.display = 'block';

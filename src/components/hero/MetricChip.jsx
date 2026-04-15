@@ -24,9 +24,9 @@ const MetricChip = ({ label, value, unit, delay = 0 }) => {
 
 const styles = {
   chip: {
-    background: 'rgba(15, 20, 35, 0.75)',
+    background: 'var(--bg-glass)',
     backdropFilter: 'blur(16px)',
-    border: '1px solid rgba(56, 72, 104, 0.25)',
+    border: '1px solid var(--surface-border)',
     borderRadius: 14,
     padding: '14px 20px',
     minWidth: 140,
@@ -36,18 +36,18 @@ const styles = {
   value: {
     fontSize: '1.35rem',
     fontWeight: 700,
-    color: '#06b6d4',
+    color: 'var(--cyan)',
     fontFamily: "'JetBrains Mono', monospace",
   },
   unit: {
     fontSize: '0.75rem',
-    color: '#64748b',
+    color: 'var(--text-muted)',
     marginLeft: 4,
     fontFamily: "'JetBrains Mono', monospace",
   },
   label: {
     fontSize: '0.7rem',
-    color: '#94a3b8',
+    color: 'var(--text-secondary)',
     marginTop: 4,
     fontWeight: 500,
     letterSpacing: '0.5px',

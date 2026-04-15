@@ -7,10 +7,10 @@ const ComponentPanel = ({ component, onClose }) => {
 
   const getRiskStyle = (risk) => {
     switch(risk) {
-      case 'critical': return { bg: 'rgba(239,68,68,0.12)', color: '#ef4444', border: 'rgba(239,68,68,0.3)' };
-      case 'high': return { bg: 'rgba(245,158,11,0.12)', color: '#f59e0b', border: 'rgba(245,158,11,0.3)' };
-      case 'medium': return { bg: 'rgba(245,158,11,0.08)', color: '#f59e0b', border: 'rgba(245,158,11,0.2)' };
-      default: return { bg: 'rgba(16,185,129,0.08)', color: '#10b981', border: 'rgba(16,185,129,0.2)' };
+      case 'critical': return { bg: 'var(--red-glow)', color: 'var(--red)', border: 'var(--red)' };
+      case 'high': return { bg: 'var(--amber-glow)', color: 'var(--amber)', border: 'var(--amber)' };
+      case 'medium': return { bg: 'var(--amber-dim)', color: 'var(--amber)', border: 'var(--amber)' };
+      default: return { bg: 'var(--emerald-dim)', color: 'var(--emerald)', border: 'var(--emerald)' };
     }
   };
 
@@ -51,9 +51,9 @@ const ComponentPanel = ({ component, onClose }) => {
             transition={{ duration: 0.8, ease: 'easeOut' }}
             style={{
               ...styles.healthFill,
-              background: component.health > 80 ? 'linear-gradient(90deg, #10b981, #059669)' :
-                          component.health > 55 ? 'linear-gradient(90deg, #f59e0b, #d97706)' :
-                          'linear-gradient(90deg, #ef4444, #dc2626)',
+              background: component.health > 80 ? 'linear-gradient(90deg, var(--emerald), #059669)' :
+                          component.health > 55 ? 'linear-gradient(90deg, var(--amber), #d97706)' :
+                          'linear-gradient(90deg, var(--red), #dc2626)',
             }}
           />
         </div>
@@ -101,16 +101,16 @@ const ComponentPanel = ({ component, onClose }) => {
 
 const styles = {
   panel: {
-    background: 'rgba(15, 20, 35, 0.85)', backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(56,72,104,0.25)', borderRadius: 16,
+    background: 'var(--bg-card)', backdropFilter: 'blur(20px)',
+    border: '1px solid var(--surface-border)', borderRadius: 16,
     padding: 24, height: '100%', display: 'flex', flexDirection: 'column', gap: 20,
-    overflow: 'auto',
+    overflow: 'auto', transition: 'all 0.3s ease',
   },
   header: {
     display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
   },
   title: {
-    fontSize: '1.1rem', fontWeight: 700, color: '#e2e8f0', marginBottom: 8,
+    fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8,
   },
   riskBadge: {
     display: 'inline-block', padding: '3px 10px', borderRadius: 6,
@@ -118,20 +118,20 @@ const styles = {
     border: '1px solid', fontFamily: "'JetBrains Mono', monospace",
   },
   closeBtn: {
-    background: 'rgba(56,72,104,0.2)', border: '1px solid rgba(56,72,104,0.2)',
-    borderRadius: 8, padding: 6, color: '#94a3b8', cursor: 'pointer',
+    background: 'var(--surface-border)', border: '1px solid var(--surface-border)',
+    borderRadius: 8, padding: 6, color: 'var(--text-muted)', cursor: 'pointer',
   },
   healthSection: { display: 'flex', flexDirection: 'column', gap: 8 },
   healthLabel: {
     display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.82rem',
-    color: '#94a3b8', fontWeight: 500,
+    color: 'var(--text-secondary)', fontWeight: 500,
   },
   healthValue: {
-    marginLeft: 'auto', fontWeight: 700, color: '#e2e8f0',
+    marginLeft: 'auto', fontWeight: 700, color: 'var(--text-primary)',
     fontFamily: "'JetBrains Mono', monospace", fontSize: '0.9rem',
   },
   healthTrack: {
-    width: '100%', height: 6, background: 'rgba(56,72,104,0.2)', borderRadius: 3,
+    width: '100%', height: 6, background: 'var(--surface-border)', borderRadius: 3,
     overflow: 'hidden',
   },
   healthFill: { height: '100%', borderRadius: 3 },
@@ -140,28 +140,28 @@ const styles = {
   },
   metric: {
     display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-    padding: '14px 8px', background: 'rgba(20,26,42,0.5)',
-    border: '1px solid rgba(56,72,104,0.15)', borderRadius: 10,
+    padding: '14px 8px', background: 'var(--bg-glass)',
+    border: '1px solid var(--surface-border)', borderRadius: 10,
   },
-  metricLabel: { fontSize: '0.7rem', color: '#64748b' },
+  metricLabel: { fontSize: '0.7rem', color: 'var(--text-muted)' },
   metricValue: {
-    fontSize: '0.9rem', fontWeight: 700, color: '#e2e8f0',
+    fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)',
     fontFamily: "'JetBrains Mono', monospace",
   },
   issueSection: {
-    padding: '14px 16px', background: 'rgba(245,158,11,0.05)',
-    border: '1px solid rgba(245,158,11,0.1)', borderRadius: 10,
+    padding: '14px 16px', background: 'var(--amber-dim)',
+    border: '1px solid var(--amber-glow)', borderRadius: 10,
   },
   issueHeader: {
     display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8,
   },
-  issueLabel: { fontSize: '0.78rem', fontWeight: 600, color: '#94a3b8' },
-  issueText: { fontSize: '0.85rem', color: '#e2e8f0', lineHeight: 1.5 },
+  issueLabel: { fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-secondary)' },
+  issueText: { fontSize: '0.85rem', color: 'var(--text-primary)', lineHeight: 1.5 },
   actionSection: {
-    padding: '14px 16px', background: 'rgba(6,182,212,0.05)',
-    border: '1px solid rgba(6,182,212,0.1)', borderRadius: 10,
+    padding: '14px 16px', background: 'var(--cyan-dim)',
+    border: '1px solid var(--surface-border)', borderRadius: 10,
   },
-  actionText: { fontSize: '0.85rem', color: '#06b6d4', lineHeight: 1.5 },
+  actionText: { fontSize: '0.85rem', color: 'var(--cyan)', lineHeight: 1.5 },
 };
 
 export default ComponentPanel;

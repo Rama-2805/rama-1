@@ -16,7 +16,7 @@ const HealthGauge = ({ score }) => {
     <div style={{ position: 'relative', width: 160, height: 90, margin: '0 auto' }}>
       {/* Arc background */}
       <svg width="160" height="90" viewBox="0 0 160 90">
-        <path d="M 10 80 A 70 70 0 0 1 150 80" fill="none" stroke="rgba(56,72,104,0.3)" strokeWidth="10" strokeLinecap="round" />
+        <path d="M 10 80 A 70 70 0 0 1 150 80" fill="none" stroke="var(--surface-border)" strokeWidth="10" strokeLinecap="round" />
         <path
           d="M 10 80 A 70 70 0 0 1 150 80"
           fill="none"
@@ -34,8 +34,8 @@ const HealthGauge = ({ score }) => {
       </svg>
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, textAlign: 'center' }}>
         <span style={{ fontSize: '1.8rem', fontWeight: 900, color, fontFamily: "'JetBrains Mono', monospace" }}>{score}</span>
-        <span style={{ fontSize: '0.7rem', color: '#64748b' }}>%</span>
-        <div style={{ fontSize: '0.65rem', color: '#64748b', marginTop: 2 }}>Health Score</div>
+        <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>%</span>
+        <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: 2 }}>Health Score</div>
       </div>
     </div>
   );
@@ -190,11 +190,11 @@ const AnalyticsDashboard = ({ machine, onMachineChange }) => {
             <div style={{ height: 160 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={timeSeriesData} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(56,72,104,0.15)" />
-                  <XAxis dataKey="time" tick={{ fontSize: 9, fill: '#64748b' }} interval={7} />
-                  <YAxis tick={{ fontSize: 9, fill: '#64748b' }} width={28} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-border)" />
+                  <XAxis dataKey="time" tick={{ fontSize: 9, fill: 'var(--text-muted)' }} interval={7} />
+                  <YAxis tick={{ fontSize: 9, fill: 'var(--text-muted)' }} width={28} />
                   <Tooltip contentStyle={tooltipStyle} formatter={v => [v.toFixed(3), 'Vibration (g)']} />
-                  <Line type="monotone" dataKey="vibration" stroke="#06b6d4" dot={false} strokeWidth={2} isAnimationActive={false} />
+                  <Line type="monotone" dataKey="vibration" stroke="var(--cyan)" dot={false} strokeWidth={2} isAnimationActive={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -209,11 +209,11 @@ const AnalyticsDashboard = ({ machine, onMachineChange }) => {
             <div style={{ height: 160 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={timeSeriesData} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(56,72,104,0.15)" />
-                  <XAxis dataKey="time" tick={{ fontSize: 9, fill: '#64748b' }} interval={7} />
-                  <YAxis tick={{ fontSize: 9, fill: '#64748b' }} width={28} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-border)" />
+                  <XAxis dataKey="time" tick={{ fontSize: 9, fill: 'var(--text-muted)' }} interval={7} />
+                  <YAxis tick={{ fontSize: 9, fill: 'var(--text-muted)' }} width={28} />
                   <Tooltip contentStyle={tooltipStyle} formatter={v => [v.toFixed(1), 'Temp (°C)']} />
-                  <Line type="monotone" dataKey="temperature" stroke="#f59e0b" dot={false} strokeWidth={2} isAnimationActive={false} />
+                  <Line type="monotone" dataKey="temperature" stroke="var(--amber)" dot={false} strokeWidth={2} isAnimationActive={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -228,11 +228,11 @@ const AnalyticsDashboard = ({ machine, onMachineChange }) => {
             <div style={{ height: 160 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={timeSeriesData.filter((_, i) => i % 3 === 0)} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(56,72,104,0.15)" />
-                  <XAxis dataKey="time" tick={{ fontSize: 9, fill: '#64748b' }} interval={3} />
-                  <YAxis tick={{ fontSize: 9, fill: '#64748b' }} width={28} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-border)" />
+                  <XAxis dataKey="time" tick={{ fontSize: 9, fill: 'var(--text-muted)' }} interval={3} />
+                  <YAxis tick={{ fontSize: 9, fill: 'var(--text-muted)' }} width={28} />
                   <Tooltip contentStyle={tooltipStyle} formatter={v => [v.toFixed(1), 'kW']} />
-                  <Bar dataKey="power" fill="#8b5cf6" radius={[2, 2, 0, 0]} isAnimationActive={false} opacity={0.8} />
+                  <Bar dataKey="power" fill="var(--purple)" radius={[2, 2, 0, 0]} isAnimationActive={false} opacity={0.8} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -269,12 +269,13 @@ const AnalyticsDashboard = ({ machine, onMachineChange }) => {
 };
 
 const tooltipStyle = {
-  background: '#0f1420', border: '1px solid rgba(56,72,104,0.3)',
+  background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
   borderRadius: 8, fontSize: '0.75rem',
+  color: 'var(--text-primary)',
 };
 
 const styles = {
-  section: { padding: '100px 0', background: '#0a0e17' },
+  section: { padding: '100px 0', background: 'var(--bg-primary)', transition: 'background 0.3s ease' },
   container: { maxWidth: 1280, margin: '0 auto', padding: '0 32px' },
   header: { textAlign: 'center', marginBottom: 40 },
   machineSelector: { display: 'flex', gap: 10, marginBottom: 28, flexWrap: 'wrap' },
@@ -285,56 +286,59 @@ const styles = {
   },
   topRow: { display: 'grid', gridTemplateColumns: '1fr 1.2fr 1fr', gap: 20, marginBottom: 20 },
   gaugeCard: {
-    background: 'rgba(15,20,35,0.7)', border: '1px solid rgba(56,72,104,0.2)',
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
     borderRadius: 14, padding: 20, display: 'flex', flexDirection: 'column', gap: 16,
+    backdropFilter: 'blur(12px)', transition: 'all 0.3s ease',
   },
   gaugeStats: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 },
   gaugeStat: { textAlign: 'center' },
-  gsLabel: { display: 'block', fontSize: '0.68rem', color: '#64748b', marginBottom: 2 },
-  gsValue: { fontSize: '0.9rem', fontWeight: 700, color: '#e2e8f0', fontFamily: "'JetBrains Mono', monospace" },
+  gsLabel: { display: 'block', fontSize: '0.68rem', color: 'var(--text-muted)', marginBottom: 2 },
+  gsValue: { fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: "'JetBrains Mono', monospace" },
   rulCard: {
-    background: 'rgba(15,20,35,0.7)', border: '1px solid rgba(56,72,104,0.2)',
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
     borderRadius: 14, padding: 24, display: 'flex', flexDirection: 'column', gap: 12,
+    backdropFilter: 'blur(12px)', transition: 'all 0.3s ease',
   },
   rulHeader: { display: 'flex', alignItems: 'center', gap: 8 },
-  rulTitle: { fontSize: '0.85rem', fontWeight: 600, color: '#94a3b8' },
-  rulValue: { fontSize: '2rem', fontWeight: 900, color: '#e2e8f0', fontFamily: "'JetBrains Mono', monospace" },
-  rulConfidence: { fontSize: '0.75rem', color: '#64748b' },
+  rulTitle: { fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' },
+  rulValue: { fontSize: '2rem', fontWeight: 900, color: 'var(--text-primary)', fontFamily: "'JetBrains Mono', monospace" },
+  rulConfidence: { fontSize: '0.75rem', color: 'var(--text-muted)' },
   rulBarTrack: {
-    height: 6, background: 'rgba(56,72,104,0.2)', borderRadius: 3, overflow: 'hidden',
+    height: 6, background: 'var(--surface-border)', borderRadius: 3, overflow: 'hidden',
   },
   rulBarFill: { height: '100%', borderRadius: 3, transition: 'background 0.3s' },
-  rulTicks: { display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', color: '#64748b' },
+  rulTicks: { display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', color: 'var(--text-muted)' },
   faultCard: {
-    background: 'rgba(15,20,35,0.7)', border: '1px solid rgba(56,72,104,0.2)',
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
     borderRadius: 14, padding: 24, display: 'flex', flexDirection: 'column', gap: 12,
+    backdropFilter: 'blur(12px)', transition: 'all 0.3s ease',
   },
-  cardTitle: { fontSize: '0.85rem', fontWeight: 600, color: '#e2e8f0', marginBottom: 4 },
+  cardTitle: { fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 },
   fpRow: { display: 'flex', alignItems: 'center', gap: 10 },
-  fpName: { width: 80, fontSize: '0.78rem', color: '#94a3b8', flexShrink: 0 },
-  fpBarTrack: { flex: 1, height: 6, background: 'rgba(56,72,104,0.2)', borderRadius: 3, overflow: 'hidden' },
+  fpName: { width: 80, fontSize: '0.78rem', color: 'var(--text-secondary)', flexShrink: 0 },
+  fpBarTrack: { flex: 1, height: 6, background: 'var(--surface-border)', borderRadius: 3, overflow: 'hidden' },
   fpBarFill: { height: '100%', borderRadius: 3 },
   fpValue: { width: 35, textAlign: 'right', fontSize: '0.78rem', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" },
   chartsGrid: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 20 },
   chartCard: {
-    background: 'rgba(15,20,35,0.7)', border: '1px solid rgba(56,72,104,0.2)',
-    borderRadius: 14, padding: 20,
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
+    borderRadius: 14, padding: 20, backdropFilter: 'blur(12px)', transition: 'all 0.3s ease',
   },
   timelineCard: {
-    background: 'rgba(15,20,35,0.7)', border: '1px solid rgba(56,72,104,0.2)',
-    borderRadius: 14, padding: 24,
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
+    borderRadius: 14, padding: 24, backdropFilter: 'blur(12px)', transition: 'all 0.3s ease',
   },
   timelineEvents: { display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 },
   timelineItem: {
     display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px',
-    background: 'rgba(20,26,42,0.4)', borderRadius: 8, border: '1px solid rgba(56,72,104,0.12)',
+    background: 'var(--bg-glass)', borderRadius: 8, border: '1px solid var(--surface-border)',
   },
   timelineDot: { width: 10, height: 10, borderRadius: '50%', flexShrink: 0 },
   timelineContent: { flex: 1, display: 'flex', gap: 10, alignItems: 'center' },
-  tlType: { fontSize: '0.8rem', fontWeight: 600, color: '#e2e8f0', textTransform: 'capitalize' },
-  tlComp: { fontSize: '0.72rem', color: '#64748b' },
-  tlScore: { fontSize: '0.78rem', fontWeight: 600, color: '#f59e0b', fontFamily: "'JetBrains Mono', monospace" },
-  tlTime: { fontSize: '0.72rem', color: '#64748b', fontFamily: "'JetBrains Mono', monospace", flexShrink: 0 },
+  tlType: { fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' },
+  tlComp: { fontSize: '0.72rem', color: 'var(--text-muted)' },
+  tlScore: { fontSize: '0.78rem', fontWeight: 600, color: 'var(--amber)', fontFamily: "'JetBrains Mono', monospace" },
+  tlTime: { fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: "'JetBrains Mono', monospace", flexShrink: 0 },
 };
 
 export default AnalyticsDashboard;

@@ -121,7 +121,7 @@ const DigitalTwin = ({ machine, onComponentSelect }) => {
                   exit={{ opacity: 0 }}
                   style={styles.placeholder}
                 >
-                  <Box size={40} color="#1e293b" />
+                  <Box size={40} color="var(--text-muted)" />
                   <p style={styles.placeholderText}>Click any component on the 3D model to inspect its health data and maintenance status</p>
                   <div style={styles.componentList}>
                     {machine.components.map(comp => (
@@ -132,7 +132,7 @@ const DigitalTwin = ({ machine, onComponentSelect }) => {
                       >
                         <span style={{
                           ...styles.compDot,
-                          background: comp.risk === 'critical' ? '#ef4444' : comp.risk === 'high' ? '#f59e0b' : comp.risk === 'medium' ? '#f59e0b' : '#10b981',
+                          background: comp.risk === 'critical' ? 'var(--red)' : comp.risk === 'high' ? 'var(--amber)' : comp.risk === 'medium' ? 'var(--amber)' : 'var(--emerald)',
                         }} />
                         {comp.name}
                         <span style={styles.compHealth}>{comp.health}%</span>
@@ -150,23 +150,23 @@ const DigitalTwin = ({ machine, onComponentSelect }) => {
 };
 
 const styles = {
-  section: { padding: '100px 0', position: 'relative', background: 'linear-gradient(180deg, #0a0e17 0%, #0f1420 100%)' },
+  section: { padding: '100px 0', position: 'relative', background: 'var(--bg-secondary)', transition: 'background 0.3s ease' },
   container: { maxWidth: 1280, margin: '0 auto', padding: '0 32px' },
   header: { textAlign: 'center', marginBottom: 48 },
   twinGrid: { display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 24, minHeight: 550 },
   canvasWrap: { position: 'relative' },
   canvasInner: {
     position: 'relative', height: '100%', minHeight: 500, borderRadius: 16,
-    background: 'rgba(15,20,35,0.6)', border: '1px solid rgba(56,72,104,0.2)',
-    overflow: 'hidden',
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
+    overflow: 'hidden', backdropFilter: 'blur(12px)', transition: 'all 0.3s ease',
   },
   canvasControls: {
     position: 'absolute', top: 16, right: 16, display: 'flex', gap: 8, zIndex: 10,
   },
   controlBtn: {
     display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px',
-    background: 'rgba(15,20,35,0.8)', border: '1px solid rgba(56,72,104,0.3)',
-    borderRadius: 8, color: '#e2e8f0', fontSize: '0.75rem', fontWeight: 500,
+    background: 'var(--bg-glass)', border: '1px solid var(--surface-border)',
+    borderRadius: 8, color: 'var(--text-primary)', fontSize: '0.75rem', fontWeight: 500,
     cursor: 'pointer', backdropFilter: 'blur(8px)', transition: 'all 0.2s',
     fontFamily: "'Inter', sans-serif",
   },
@@ -175,12 +175,12 @@ const styles = {
     alignItems: 'center', gap: 12, zIndex: 10,
   },
   machineName: {
-    fontSize: '0.85rem', fontWeight: 600, color: '#e2e8f0',
-    background: 'rgba(15,20,35,0.8)', backdropFilter: 'blur(8px)',
-    padding: '6px 12px', borderRadius: 6, border: '1px solid rgba(56,72,104,0.2)',
+    fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)',
+    background: 'var(--bg-card)', backdropFilter: 'blur(8px)',
+    padding: '6px 12px', borderRadius: 6, border: '1px solid var(--surface-border)',
   },
   machineType: {
-    fontSize: '0.75rem', color: '#64748b',
+    fontSize: '0.75rem', color: 'var(--text-muted)',
   },
   machineStatus: {
     fontSize: '0.7rem', fontWeight: 600, padding: '4px 10px', borderRadius: 6,
@@ -190,24 +190,24 @@ const styles = {
   placeholder: {
     height: '100%', display: 'flex', flexDirection: 'column',
     alignItems: 'center', justifyContent: 'flex-start', padding: 24,
-    background: 'rgba(15,20,35,0.6)', border: '1px solid rgba(56,72,104,0.2)',
-    borderRadius: 16, gap: 16, paddingTop: 40,
+    background: 'var(--bg-card)', border: '1px solid var(--surface-border)',
+    borderRadius: 16, gap: 16, paddingTop: 40, transition: 'all 0.3s ease',
   },
   placeholderText: {
-    color: '#64748b', fontSize: '0.85rem', textAlign: 'center', maxWidth: 280,
+    color: 'var(--text-muted)', fontSize: '0.85rem', textAlign: 'center', maxWidth: 280,
     lineHeight: 1.6,
   },
   componentList: { display: 'flex', flexDirection: 'column', gap: 6, width: '100%', marginTop: 8 },
   compBtn: {
     display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px',
-    background: 'rgba(20,26,42,0.6)', border: '1px solid rgba(56,72,104,0.15)',
-    borderRadius: 8, color: '#e2e8f0', fontSize: '0.82rem',
+    background: 'var(--bg-glass)', border: '1px solid var(--surface-border)',
+    borderRadius: 8, color: 'var(--text-primary)', fontSize: '0.82rem',
     cursor: 'pointer', transition: 'all 0.2s', textAlign: 'left',
     fontFamily: "'Inter', sans-serif",
   },
   compDot: { width: 8, height: 8, borderRadius: '50%', flexShrink: 0 },
   compHealth: {
-    marginLeft: 'auto', fontSize: '0.75rem', color: '#64748b',
+    marginLeft: 'auto', fontSize: '0.75rem', color: 'var(--text-muted)',
     fontFamily: "'JetBrains Mono', monospace",
   },
 };

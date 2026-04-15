@@ -44,11 +44,21 @@ def load_model():
 def load_sample_data():
     data_path = 'models/sample_data.csv'
     if os.path.exists(data_path):
-        return pd.read_csv(data_path).drop(columns=['fault_type'])
+        return pd.read_csv(data_path).drop(columns=['fault_type'], errors='ignore')
     return pd.DataFrame()
+
+@st.cache_data
+def load_nasa_data():
+    data_path = '../nasa_test4_features.csv'
+    if not os.path.exists(data_path):
+        data_path = 'nasa_test4_features.csv'
+    if os.path.exists(data_path):
+        return pd.read_csv(data_path)
+    return None
 
 model = load_model()
 sample_data = load_sample_data()
+nasa_data = load_nasa_data()
 
 if model is None:
     st.warning("Model not found. Please run `python ml_pipeline.py` first to train the model.", icon="⚠️")
@@ -59,7 +69,13 @@ col1, col2 = st.columns([1, 3])
 with col1:
     st.markdown("### Simulation Controls")
     machine_id = st.selectbox("Select Machine", ["Motor-A1 (Extruder)", "Pump-B2 (Cooling)", "Comp-C1 (HVAC)"])
-    fault_injection = st.selectbox("Inject Fault Scenario (Simulation)", ["Normal Operation", "Inject Inner Race Fault", "Inject Outer Race Fault", "Inject Ball Fault"])
+    fault_injection = st.selectbox("Inject Fault Scenario (Simulation)", [
+        "Normal Operation", 
+        "Inject Inner Race Fault", 
+        "Inject Outer Race Fault", 
+        "Inject Ball Fault",
+        "Stream NASA Run-To-Failure Data (Live)"
+    ])
     simulation_speed = st.slider("Simulation Speed (ms)", min_value=100, max_value=2000, value=800, step=100)
     run_simulation = st.checkbox("▶ Start Live Simulation")
 
@@ -80,7 +96,17 @@ if "history" not in st.session_state:
 if "time_step" not in st.session_state:
     st.session_state.time_step = 0
 
-def generate_live_point(scenario):
+def generate_live_point(scenario, time_step=None, nasa_df=None):
+    if scenario == "Stream NASA Run-To-Failure Data (Live)" and nasa_df is not None:
+        idx = time_step % len(nasa_df)
+        row = nasa_df.iloc[idx]
+        return pd.DataFrame([{
+            'vibration_rms': row['rms_vibration_b1'],
+            'kurtosis': row['kurt_vibration_b1'],
+            'temperature': max(20, np.random.normal(45, 1.5)), # dummy UI metric
+            'load': np.random.normal(65, 5.0) # dummy UI metric
+        }])
+
     # Base normal
     v_mean, v_std = 0.12, 0.02
     k_mean, k_std = 3.1, 0.1
@@ -106,10 +132,12 @@ def generate_live_point(scenario):
 if run_simulation:
     while run_simulation:
         # Generate new point based on selected scenario
-        new_point = generate_live_point(fault_injection)
+        new_point = generate_live_point(fault_injection, st.session_state.time_step, nasa_data)
+        st.session_state.time_step += 1
         
-        # Predict
-        prediction = model.predict(new_point)[0]
+        # Predict using Isolation Forest on only vibration_rms & kurtosis
+        prediction_val = model.predict(new_point[['vibration_rms', 'kurtosis']])[0]
+        prediction_str = "Normal" if prediction_val == 1 else "Anomaly Detected"
         
         # Record history
         new_row = {
@@ -117,7 +145,7 @@ if run_simulation:
             'Vibration (RMS)': new_point['vibration_rms'].values[0],
             'Temperature': new_point['temperature'].values[0],
             'Kurtosis': new_point['kurtosis'].values[0],
-            'Prediction': prediction
+            'Prediction': prediction_str
         }
         st.session_state.history.loc[len(st.session_state.history)] = new_row
         
@@ -128,12 +156,12 @@ if run_simulation:
         df_hist = st.session_state.history
         
         # Update Metrics
-        status_color = "status-normal" if prediction == "Normal" else "status-critical"
+        status_color = "status-normal" if prediction_str == "Normal" else "status-critical"
         
         vib_metric.markdown(f'<div class="metric-card"><b>Vibration (RMS)</b><br><h2 style="color:#06b6d4">{new_row["Vibration (RMS)"]:.3f} g</h2></div>', unsafe_allow_html=True)
         temp_metric.markdown(f'<div class="metric-card"><b>Temperature</b><br><h2 style="color:#f97316">{new_row["Temperature"]:.1f} °C</h2></div>', unsafe_allow_html=True)
         kurt_metric.markdown(f'<div class="metric-card"><b>Kurtosis</b><br><h2 style="color:#8b5cf6">{new_row["Kurtosis"]:.2f}</h2></div>', unsafe_allow_html=True)
-        pred_metric.markdown(f'<div class="metric-card"><b>AI Diagnosis</b><br><h2 class="{status_color}">{prediction}</h2></div>', unsafe_allow_html=True)
+        pred_metric.markdown(f'<div class="metric-card"><b>AI Diagnosis</b><br><h2 class="{status_color}">{prediction_str}</h2></div>', unsafe_allow_html=True)
         
         # Update Charts
         fig = go.Figure()
