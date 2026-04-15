@@ -1,8 +1,22 @@
 // Custom hook: Sensor stream receiver (BroadcastChannel + WebSocket)
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-const CHANNEL_NAME = 'factoryshield-sensor';
+const CHANNEL_NAME = 'aegis-sensor';
 const WS_URL = window.location.protocol === 'https:' ? `wss://${window.location.host}/ws-relay` : `ws://${window.location.host}/ws-relay`;
+
+// NASA Test 2 Reference continuous subset
+const NASA_TEST2_SAMPLE = [
+  { max: 0.454, rms: 0.0741 }, { max: 0.388, rms: 0.0753 }, { max: 0.503, rms: 0.0762 },
+  { max: 0.608, rms: 0.0787 }, { max: 0.584, rms: 0.0815 }, { max: 0.495, rms: 0.0822 },
+  { max: 0.564, rms: 0.0841 }, { max: 0.473, rms: 0.0850 }, { max: 0.521, rms: 0.0854 },
+  { max: 0.580, rms: 0.0861 }, { max: 0.498, rms: 0.0872 }, { max: 0.540, rms: 0.0881 },
+  { max: 0.655, rms: 0.0890 }, { max: 0.702, rms: 0.0895 }, { max: 0.620, rms: 0.0911 },
+  { max: 0.590, rms: 0.0921 }, { max: 0.640, rms: 0.0934 }, { max: 0.710, rms: 0.0945 },
+  { max: 0.680, rms: 0.0952 }, { max: 0.740, rms: 0.0961 }, { max: 0.810, rms: 0.0975 },
+  { max: 0.780, rms: 0.0982 }, { max: 0.850, rms: 0.1001 }, { max: 0.890, rms: 0.1015 },
+  { max: 0.950, rms: 0.1030 }, { max: 1.020, rms: 0.1054 }, { max: 1.150, rms: 0.1082 },
+  { max: 1.250, rms: 0.1111 }, { max: 1.350, rms: 0.1154 }, { max: 1.500, rms: 0.1210 }
+];
 
 export function useSensorStream() {
   const [latestData, setLatestData] = useState(null);
@@ -16,6 +30,7 @@ export function useSensorStream() {
   const channelRef = useRef(null);
   const wsRef = useRef(null);
   const simIntervalRef = useRef(null);
+  const simulationIndexRef = useRef(0);
 
   const processIncoming = useCallback((data) => {
     setLatestData(data);
@@ -119,21 +134,19 @@ export function useSensorStream() {
   const startSimulation = useCallback(() => {
     if (simIntervalRef.current) return;
     
-    let t = 0;
     setConnectionType('simulated');
     setIsConnected(true);
     
     simIntervalRef.current = setInterval(() => {
-      t += 0.05;
-      // Simulate varying vibration with periodic spikes
-      const baseVib = 0.3 + 0.1 * Math.sin(t * 2);
-      const spike = Math.random() > 0.95 ? Math.random() * 2 : 0;
-      const noise = (Math.random() - 0.5) * 0.3;
+      const currentNASA = NASA_TEST2_SAMPLE[simulationIndexRef.current % NASA_TEST2_SAMPLE.length];
+      simulationIndexRef.current++;
       
-      const x = baseVib * Math.sin(t * 5.1) + noise + spike * 0.5;
-      const y = baseVib * Math.cos(t * 3.7) + noise * 0.8;
-      const z = 9.81 + baseVib * Math.sin(t * 7.3) + noise * 0.4 + spike * 0.3;
-      const magnitude = Math.sqrt(x * x + y * y + z * z);
+      const x = currentNASA.max * 0.5;
+      const y = currentNASA.rms * 5.0; // scale up visual wave
+      const z = currentNASA.max * 0.8;
+      
+      // We directly inject the NASA dataset magnitude metrics into the stream pipeline
+      const magnitude = currentNASA.max;
       
       processIncoming({
         x: parseFloat(x.toFixed(3)),

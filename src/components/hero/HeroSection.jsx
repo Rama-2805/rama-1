@@ -35,7 +35,7 @@ const HeroSection = () => {
             </motion.div>
 
             <h1 style={styles.headline}>
-              Factory<span style={styles.accent}>Shield</span> AI
+              Aegis
             </h1>
 
             <h2 style={styles.subheadline}>
@@ -43,7 +43,7 @@ const HeroSection = () => {
             </h2>
 
             <p style={styles.description}>
-              Predict breakdowns before production stops. FactoryShield AI combines real vibration
+              Predict breakdowns before production stops. Aegis combines real vibration
               intelligence from industrial bearing datasets with live sensor monitoring and cinematic
               3D digital twin visualization to transform maintenance from reactive repair into
               predictive action.

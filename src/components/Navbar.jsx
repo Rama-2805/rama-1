@@ -38,7 +38,7 @@ const Navbar = ({ theme, onToggleTheme }) => {
           <div style={styles.brand} onClick={() => scrollTo('hero')}>
             <Shield size={22} color="var(--cyan)" />
             <span style={{...styles.brandText, color: 'var(--text-primary)'}}>
-              Factory<span style={{ color: 'var(--cyan)' }}>Shield</span>
+              Aegis
             </span>
           </div>
           <div style={styles.links}>

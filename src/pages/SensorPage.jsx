@@ -21,7 +21,7 @@ const SensorPage = () => {
   // Set up BroadcastChannel
   useEffect(() => {
     try {
-      channelRef.current = new BroadcastChannel('factoryshield-sensor');
+      channelRef.current = new BroadcastChannel('aegis-sensor');
       setBroadcastActive(true);
     } catch (e) {
       setBroadcastActive(false);
@@ -73,10 +73,9 @@ const SensorPage = () => {
     <div style={styles.page}>
       <div style={styles.bgGlow} />
 
-      {/* Header */}
       <div style={styles.header}>
         <Shield size={22} color="#06b6d4" />
-        <span style={styles.headerTitle}>FactoryShield AI</span>
+        <span style={styles.headerTitle}>Aegis</span>
         <span style={styles.headerSub}>Mobile Sensor</span>
       </div>
 
@@ -158,7 +157,7 @@ const SensorPage = () => {
         <p style={styles.instrText}>
           Tap "Start Sensing" and grant motion permission when prompted.
           Place your phone on a vibrating surface or shake it to simulate vibration.
-          The data streams live to the FactoryShield dashboard.
+          The data streams live to the Aegis dashboard.
         </p>
         <p style={styles.disclaimer}>
           ⚠️ Smartphone accelerometer is used as a low-cost prototype sensor for demo purposes.

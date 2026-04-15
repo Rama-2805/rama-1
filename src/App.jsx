@@ -8,6 +8,7 @@ import LiveSensorSection from './components/sensor/LiveSensorSection';
 import DatasetSection from './components/dataset/DatasetSection';
 import PipelineSection from './components/pipeline/PipelineSection';
 import AnalyticsDashboard from './components/analytics/AnalyticsDashboard';
+import ModelEvaluationSection from './components/evaluation/ModelEvaluationSection';
 import FactoryFloor from './components/factory/FactoryFloor';
 import AIAdvisor from './components/advisor/AIAdvisor';
 import ArchitectureSection from './components/architecture/ArchitectureSection';
@@ -67,6 +68,7 @@ function App() {
           machine={selectedMachine} 
           onMachineChange={setSelectedMachine} 
         />
+        <ModelEvaluationSection />
         <FactoryFloor 
           machines={MACHINES} 
           selectedMachine={selectedMachine}

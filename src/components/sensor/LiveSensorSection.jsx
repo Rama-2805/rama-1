@@ -99,11 +99,11 @@ const LiveSensorSection = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {connectionType !== 'simulated' ? (
                 <button style={styles.btnStart} onClick={startSimulation}>
-                  <Activity size={14} /> Start Demo Simulation
+                  <Activity size={14} /> Start Simulation
                 </button>
               ) : (
                 <button style={styles.btnStop} onClick={stopSimulation}>
-                  <WifiOff size={14} /> Stop Demo Simulation
+                  <WifiOff size={14} /> Stop Simulation
                 </button>
               )}
               <button 
@@ -126,15 +126,20 @@ const LiveSensorSection = () => {
             <div style={styles.phoneInstructions}>
               <p style={styles.instrTitle}>📱 Connect Real Phone</p>
               <ol style={styles.instrList}>
-                <li>Open a new browser tab on your phone</li>
-                <li>Navigate to this URL and add <code style={styles.code}>#sensor-page</code></li>
-                <li>Or open: <code style={styles.code}>{qrUrl}</code></li>
-                <li>Tap "Start Sensing" and grant motion permission</li>
-                <li>Data streams via BroadcastChannel or WebSocket</li>
+                <li>Ensure laptop and phone are on <strong>same Wi-Fi</strong></li>
+                <li>
+                  Open a new tab on your phone exactly here:<br/>
+                  <code style={{...styles.code, background: 'rgba(245,158,11,0.2)', color: '#f59e0b', fontSize: '0.8rem', padding: '4px', display: 'block', marginTop: 4 }}>
+                    {qrUrl.includes('localhost') ? qrUrl.replace('localhost', '<LAPTOP-WIFI-IP>') : qrUrl}
+                  </code>
+                </li>
+                <li>Tap "Start Sensing" &amp; grant motion access on phone.</li>
               </ol>
-              <p style={styles.wsNote}>
-                WebSocket relay running on port 8765. Start it with: <code style={styles.code}>npm run server</code>
-              </p>
+              <div style={styles.wsNote}>
+                <span style={{color: 'var(--amber)', fontWeight: 'bold'}}>⚠️ CRITICAL REQUIREMENT:</span><br/>
+                For the laptop to talk to the phone, you must open a new terminal tab right now and run:<br/>
+                <code style={{...styles.code, padding: '2px 6px', marginTop: '4px', display: 'inline-block'}}>npm run server</code>
+              </div>
             </div>
 
             {/* Live XYZ readout */}
@@ -186,7 +191,7 @@ const LiveSensorSection = () => {
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div style={styles.noDataMsg}>Start a simulation or connect your phone to see live data</div>
+                  <div style={styles.noDataMsg}>Start a simulation to see the nasa_test2_features continuous data stream</div>
                 )}
               </div>
             </div>
