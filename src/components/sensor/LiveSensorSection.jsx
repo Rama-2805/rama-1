@@ -27,7 +27,7 @@ const LiveSensorSection = () => {
 
     if (buffer.length > 0) {
       const recent = buffer.slice(-200);
-      setWaveformData(recent.map((d, i) => ({ i, v: d.magnitude, x: d.x, y: d.y, z: d.z })));
+      setWaveformData(recent.map((d, i) => ({ i, v: d.mape || 0, magnitude: d.magnitude, x: d.x, y: d.y, z: d.z })));
 
       const magnitudes = recent.map(d => d.magnitude);
       const newRms = calculateRMS(magnitudes);
@@ -172,7 +172,7 @@ const LiveSensorSection = () => {
             {/* Waveform */}
             <div style={styles.chartCard}>
               <div style={styles.chartHeader}>
-                <span style={styles.chartTitle}>Live Vibration Waveform</span>
+                <span style={styles.chartTitle}>Live MAPE Error Stream</span>
                 <span style={{ ...styles.statusBadge, background: `${status.color}20`, color: status.color }}>
                   ● {status.label}
                 </span>
@@ -183,9 +183,9 @@ const LiveSensorSection = () => {
                     <LineChart data={waveformData} margin={{ top: 4, right: 4, bottom: 4, left: 0 }}>
                       <YAxis domain={['auto', 'auto']} hide />
                       <XAxis dataKey="i" hide />
-                      <ReferenceLine y={rms} stroke="rgba(6,182,212,0.4)" strokeDasharray="4 2" />
+                      <ReferenceLine y={5.0} stroke="rgba(245,158,11,0.4)" strokeDasharray="4 2" />
                       <Line
-                        type="monotone" dataKey="v" stroke={status.color}
+                        type="monotone" dataKey="v" stroke="#f59e0b"
                         dot={false} strokeWidth={1.5} isAnimationActive={false}
                       />
                     </LineChart>
@@ -202,7 +202,7 @@ const LiveSensorSection = () => {
                 { label: 'RMS Vibration', value: rms.toFixed(3), unit: 'g' },
                 { label: 'Kurtosis', value: kurtosis.toFixed(2), unit: '' },
                 { label: 'Anomaly Score', value: (anomalyScore * 100).toFixed(1), unit: '%' },
-                { label: 'Magnitude', value: latestData ? latestData.magnitude.toFixed(3) : '—', unit: 'm/s²' },
+                { label: 'MAPE (Error)', value: latestData && latestData.mape !== undefined ? latestData.mape.toFixed(2) : '—', unit: '%' },
               ].map(m => (
                 <div key={m.label} style={styles.metricTile}>
                   <span style={styles.metricTileLabel}>{m.label}</span>
